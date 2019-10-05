@@ -1,31 +1,17 @@
 package com.example.rahul.retrofitrestapi;
 
-import com.example.rahul.retrofitrestapi.DashBoardRequest.DashBoardRequest;
-import com.example.rahul.retrofitrestapi.DashBoardResponse.DashBoardResponsePojo;
-
 import retrofit2.Call;
-import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
     // @Header({"Content-Type: application/json"})
-//
-//    @POST("advoman/api/api.php")
-//    Call<registerResponsePojo> register
-//            (@Body RegisterRequest body);
-//
-//    @POST("advoman/api/api.php")
-//    Call<LoginRes> login
-//            (@Body LoginReq body);
-//
-//    @POST("advoman/api/api.php")
-//    Call<OtpResp> otp
-//            (@Body OtpReq body);
+    @FormUrlEncoded
+    @POST("Login")
+    Call<ModelCommanResponse> login(@Field("Email") String Email, @Field("pwd") String pwd, @Field("deviceID") String deviceID, @Field("LoginType") String LoginType);
 
-
-    @POST("advoman/api/api.php")
-    Call<DashBoardResponsePojo> dashboard
-            (@Body DashBoardRequest body);
-
+    @POST("ProductList")
+    Call<ModelProductListResponse> getProduct();
 
 }

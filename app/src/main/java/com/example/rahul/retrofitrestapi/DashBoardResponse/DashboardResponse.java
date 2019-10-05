@@ -3,7 +3,7 @@ package com.example.rahul.retrofitrestapi.DashBoardResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DashBoardResponsePojo
+public class DashboardResponse
 {
 
 

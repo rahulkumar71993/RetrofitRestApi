@@ -1,108 +1,79 @@
 package com.example.rahul.retrofitrestapi;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.util.Log;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.View;
 import android.widget.Toast;
-
-import com.example.rahul.retrofitrestapi.DashBoardRequest.DashBoardDataRequest;
-import com.example.rahul.retrofitrestapi.DashBoardRequest.DashBoardRequest;
-import com.example.rahul.retrofitrestapi.DashBoardResponse.DashBoardDataResponse;
-import com.example.rahul.retrofitrestapi.DashBoardResponse.DashBoardResponsePojo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadData();
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        findViewById(R.id.tLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+        hitProductApi();
+
     }
 
     private void loadData() {
-
-        //  Toast.makeText(getActivity(), "nhgvjv", Toast.LENGTH_SHORT).show();
-        BaseUrl b = (BaseUrl) getApplicationContext();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-
-        ApiInterface cr = retrofit.create(ApiInterface.class);
-
-        DashBoardRequest body = new DashBoardRequest();
-
-        body.setAction("dashboard");
-
-        DashBoardDataRequest data = new DashBoardDataRequest();
-        data.setUserId("1");
-
-        body.setData(data);
-
-
-        Call<DashBoardResponsePojo> call = cr.dashboard(body);
-
-        call.enqueue(new Callback<DashBoardResponsePojo>() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BaseUrl.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        Call<ModelCommanResponse> call = api.login("a@nish.com", "123456", "4646546565", "2");
+        call.enqueue(new Callback<ModelCommanResponse>() {
             @Override
-            public void onResponse(Call<DashBoardResponsePojo> call, Response<DashBoardResponsePojo> response) {
-
-                // response.body().getDataa();
-                if (response.body().getStatus().equals("1")) {
-
-                    DashBoardDataResponse drs= response.body().getData();
-                    Toast.makeText(getApplicationContext(), "wpobgjhg", Toast.LENGTH_SHORT).show();
-                    List<DashBoardDataResponse> datList=new ArrayList<>();
-
-
-
-                    for (int a=0;a<drs.getLevel1Amount().length();a++){
-
-
-                        Log.e("333", drs.getDashboardStatus() + "  " + drs.getLevel1Amount()+ "  " + drs.getLevel1Joins() + "  " + drs.getTotalAmountEarned());
-
-                    }
-
-                    //
-//                    Toast.makeText(getActivity(), "Register", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(getActivity(), Verify_Otp.class);
-//                    startActivity(intent);
-
-
-                } else {
-                    // Log.e("333",response.body().getMessagee() + "  hruyyui " + response.body().getStatus());
-                    Toast.makeText(getApplicationContext(), "errorrrbb", Toast.LENGTH_SHORT).show();
-                }
-
-
-                // progress.setVisibility(View.GONE);
+            public void onResponse(Call<ModelCommanResponse> call, Response<ModelCommanResponse> response) {
+                Toast.makeText(MainActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<DashBoardResponsePojo> call, Throwable t) {
-                // progress.setVisibility(View.GONE);
+            public void onFailure(Call<ModelCommanResponse> call, Throwable t) {
 
-                Toast.makeText(getApplicationContext(), "failure...", Toast.LENGTH_SHORT).show();
-                Log.e("333",t.toString());
             }
         });
-
-
     }
 
+    private void hitProductApi() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BaseUrl.BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+        ApiInterface api = retrofit.create(ApiInterface.class);
+        Call<ModelProductListResponse> call = api.getProduct();
+        call.enqueue(new Callback<ModelProductListResponse>() {
+            @Override
+            public void onResponse(Call<ModelProductListResponse> call, Response<ModelProductListResponse> response) {
+                if (Boolean.parseBoolean(response.body().getSuccess())) {
+                    ProductListAdapter productListAdapter = new ProductListAdapter(MainActivity.this, response.body().getData());
+                    recyclerView.setAdapter(productListAdapter);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ModelProductListResponse> call, Throwable t) {
 
+            }
+        });
+    }
 }

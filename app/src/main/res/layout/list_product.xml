@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="0dp">
+
+
+    <LinearLayout
+        android:id="@+id/llHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="1px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:text="4500"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/secondary_size" />
+
+                <TextView
+                    android:id="@+id/tProductSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:text="Dozer - 1984"
+                    android:textSize="@dimen/secondary_size" />
+
+                <TextView
+                    android:id="@+id/tProductSmallDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:text="it is very nice product"
+                    android:textSize="@dimen/tertiary_size" />
+
+                <TextView
+                    android:id="@+id/tProductAvailability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:backgroundTint="#107A78"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Availability:\n1 Aug 2019 to 25 Dec 2019"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/tertiary_size" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
